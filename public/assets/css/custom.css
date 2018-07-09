@@ -1,0 +1,13 @@
+.nk-title{
+    color:#fffe24;
+    text-shadow: 4px 2px 0px #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000;
+}
+.nk-navbar .nk-nav li.active > a {
+    color: #fffe24;
+}
+.nk-btn-color-main-1, .nk-btn-color-main-1:after, .nk-btn-color-main-1:before {
+    border-color: #fffe24;
+}
+.nk-btn-color-main-1 {
+    color: #fffe24;
+}
