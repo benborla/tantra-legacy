@@ -91,13 +91,12 @@ Additional Classes:
                     <img src="assets/images/logo.png" alt="" width="90">
                 </a>
 
-
                 <ul class="nk-nav nk-nav-right hidden-md-down" data-nav-mobile="#nk-nav-mobile">
-                    <li class="active">
-                        <a href="{{ url('index') }}">Home</a>
+                    <li class="{{ get_current_route() == 'index' ? 'active' : null }}">
+                        <a href="{{ route('index') }}">Home</a>
                     </li>
-                    <li class="">
-                        <a href="{{ url('register') }}">Register</a>
+                    <li class="{{ get_current_route() == 'register' ? 'active' : null }}">
+                        <a href="{{ route('register') }}">Register</a>
                     </li>
 
                 </ul>
