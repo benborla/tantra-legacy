@@ -141,18 +141,18 @@
                 <h2 class="nk-title h1">Scheduled Events</h2>
                 <div class="nk-gap-6"></div>
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <td><h4>Event</h4></td>
-                                <td><h4>Schedule</h4></td>
+                                <td><h4>Events</h4></td>
+                                <td><h4>Schedules</h4></td>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (config('activities.events') as $events)
                                 <tr>
-                                    <td><h4>{{ $events['title'] }}</h4></td>
-                                    <td><h4><span class="timers" id="{{ $events['element'] }}" data-hrs="{{ $events['start_hours'] }}" data-mins="{{ $events['start_minutes'] }}">-</span></h4></td>
+                                    <td><h5>{{ $events['title'] }}</h5></td>
+                                    <td><h5 data-mouse-parallax-z="2"><span class="timers" id="{{ $events['element'] }}" data-hrs="{{ $events['start_hours'] }}" data-mins="{{ $events['start_minutes'] }}">-</span></h5></td>
                                 </tr>
                             @endforeach
                         </tbody>
