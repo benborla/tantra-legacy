@@ -380,7 +380,7 @@
                 var mins = minutes-now.getMinutes();
                 var secs = 60-now.getSeconds();
                 var timeLeft = simpleTimeFormat(hrs) + ':' + simpleTimeFormat(mins) + ':' + simpleTimeFormat(secs);
-                if (hrs == '00' && parseInt(mins) <= 5) {
+                if (hrs == '00' && Math.abs(parseInt(mins)) <= 5) {
                     $(element).addClass('text-main-5');
                 } else {
                     $(element).removeClass('text-main-5');
