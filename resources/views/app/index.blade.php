@@ -137,6 +137,29 @@
         <!-- START: About -->
         <div class="nk-box bg-dark-1">
             <div class="container text-xs-center">
+                <div class="nk-gap-2"></div>
+                <h2 class="nk-title h1">Scheduled Events</h2>
+                <div class="nk-gap-6"></div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td><h4>Event</h4></td>
+                                <td><h4>Schedule</h4></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (config('activities.events') as $events)
+                                <tr>
+                                    <td><h4>{{ $events['title'] }}</h4></td>
+                                    <td><h4><span class="timers" id="{{ $events['element'] }}" data-hrs="{{ $events['start_hours'] }}" data-mins="{{ $events['start_minutes'] }}">-</span></h4></td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+
                 <div class="nk-gap-6"></div>
                 <div class="nk-gap-2"></div>
                 <h2 class="nk-title h1">About The Game</h2>
@@ -175,8 +198,8 @@
                         <div class="nk-box-2 nk-box-line">
                             <!-- START: Counter -->
                             <div class="nk-counter-3">
-                                <div class="nk-count">100+</div>
-                                <h3 class="nk-counter-title h4">Quests</h3>
+                                <div class="nk-count">1</div>
+                                <h3 class="nk-counter-title h4">Goal</h3>
                                 <div class="nk-gap-1"></div>
                             </div>
                             <!-- END: Counter -->
@@ -237,7 +260,7 @@
         <div class="nk-gap-6"></div>
         <!-- END: Testimonials -->
 
-        <!-- START: Subscribe -->
+        <!-- START: Follow -->
         <div class="nk-box bg-dark-1">
             <div class="nk-gap-6"></div>
             <div class="nk-gap-2"></div>
@@ -246,9 +269,13 @@
                     <div class="col-md-8 offset-md-2 col-lg-6 offset-lg-3">
                         <h2 class="nk-title text-xs-center h1">Follow us on Facebook</h2>
                         <div class="nk-gap-3"></div>
-                        <div class="fb-page" data-href="https://www.facebook.com/legacydone/" data-tabs="timeline" data-width="600" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
-                            <blockquote cite="https://www.facebook.com/legacydone/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/legacydone/">Tantra Legacy: Dawn Of New Era</a>
-                            </blockquote>
+                        <div class="nk-widget">
+                            <div>
+                                <div class="fb-page" data-href="https://www.facebook.com/legacydone/" data-tabs="timeline" data-width="600" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                                    <blockquote cite="https://www.facebook.com/legacydone/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/legacydone/">Tantra Legacy: Dawn Of New Era</a>
+                                    </blockquote>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -257,15 +284,9 @@
             <div class="nk-gap-6"></div>
             <div class="nk-gap-4"></div>
         </div>
-        <!-- END: Subscribe -->
+        <!-- END: Follow -->
 
 
-        <!-- START: Footer -->
-        <!--
-    Additional Classes:
-        .nk-footer-parallax
-        .nk-footer-parallax-opacity
--->
         <footer class="nk-footer nk-footer-parallax nk-footer-parallax-opacity">
             <img class="nk-footer-top-corner" src="assets/images/footer-corner.png" alt="">
 
@@ -327,40 +348,8 @@
                 </span>
                 <span class="nk-share-name">Google Plus</span>
             </li>
-            <!--
-        <li>
-            <span class="nk-share-icon" title="Share page on Pinterest" data-share="pinterest">
-                <span class="icon fa fa-pinterest"></span>
-            </span>
-            <span class="nk-share-name">Pinterest</span>
-        </li>
-        <li>
-            <span class="nk-share-icon" title="Share page on LinkedIn" data-share="linkedin">
-                <span class="icon fa fa-linkedin"></span>
-            </span>
-            <span class="nk-share-name">LinkedIn</span>
-        </li>
-        <li>
-            <span class="nk-share-icon" title="Share page on VK" data-share="vk">
-                <span class="icon fa fa-vk"></span>
-            </span>
-            <span class="nk-share-name">Vkontakte</span>
-        </li>
-        -->
         </ul>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 @endsection
 
@@ -372,6 +361,47 @@
             js = d.createElement(s); js.id = id;
             js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0';
             fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script>
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <script>
+        $(function() {
+
+            function simpleTimeFormat(time) {
+                if (time.toString().length === 1) {
+                    return '0' + Math.abs(time);
+                }
+
+                return Math.abs(time);
+
+            }
+            function countdown(element, hour, minutes) {
+                var now = new Date();
+                var hrs = hour-now.getHours();
+                var mins = minutes-now.getMinutes();
+                var secs = 60-now.getSeconds();
+                var timeLeft = simpleTimeFormat(hrs) + ':' + simpleTimeFormat(mins) + ':' + simpleTimeFormat(secs);
+                if (hrs == '00' && parseInt(mins) <= 5) {
+                    $(element).addClass('text-main-5');
+                } else {
+                    $(element).removeClass('text-main-5');
+                }
+                $(element).html(timeLeft);
+            }
+
+
+            $.each($('.timers'), function (idx, timer) {
+                var element = $(timer).prop('id');
+                var hour    = $(timer).data().hrs;
+                var mins    = $(timer).data().mins;
+
+
+                setInterval(function () {
+                    countdown('#'+element, hour, mins);
+                }, 1000);
+            });
+        });
+
+
+    </script>
 
 @endpush
