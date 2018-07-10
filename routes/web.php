@@ -17,5 +17,6 @@ Route::middleware(['web'])->group(function () {
     Route::middleware(['guest'])->group(function () {
         Route::get( '/', \IndexController::class)->name('index');
         Route::get( '/register', \RegisterController::class)->name('register');
+        Route::post( '/login', \RegisterController::class)->name('login');
     });
 });

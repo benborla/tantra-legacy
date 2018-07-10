@@ -33,7 +33,7 @@ var options = {
     parallaxSpeed: 0.6,
     backgroundMusic: 'assets/mp3/purpleplanetmusic-desolation.mp3',
     backgroundMusicVolume: 100,
-    backgroundMusicAutoplay: true,
+    backgroundMusicAutoplay: false,
 
     templates: {
         secondaryNavbarBackItem: 'Back',

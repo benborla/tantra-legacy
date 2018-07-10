@@ -131,35 +131,64 @@
             </div>
             <div class="nk-gap-2"></div>
             <div class="nk-gap-6"></div>
+
         </div>
         <!-- END: Features -->
+
+
+        <!-- START: Contact Form -->
+        <div class="nk-gap-4"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="nk-box-3 bg-dark-4">
+                        <h2 class="nk-title h3 text-xs-center">Scheduled Events</h2>
+                        <div class="nk-gap-2"></div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                <tr>
+                                    <td><h4 class="nk-title h4">Events</h4></td>
+                                    <td><h4 class="nk-title h4">Schedules</h4></td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (config('activities.events') as $events)
+                                    <tr>
+                                        <td><h5>{{ $events['title'] }}</h5></td>
+                                        <td><h5 class="text-center"><span class="timers" id="{{ $events['element'] }}" data-hrs="{{ $events['start_hours'] }}" data-mins="{{ $events['start_minutes'] }}">-</span></h5></td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="nk-box-3 bg-dark-1">
+                        <h2 class="nk-title h3 text-xs-center">Login</h2>
+                        <div class="nk-gap-2"></div>
+                        {!! Form::open(['url' => route('login'), 'class' => 'nk-form nk-form-ajax nk-form-style-1']) !!}
+                        {!! Form::text('email', null, ['class' => 'form-control required', 'required' => 'required', 'placeholder' => 'Email *']) !!}
+                        <div class="nk-gap-1"></div>
+                        {!! Form::password('password', ['class' => 'form-control required', 'required' => 'required', 'placeholder' => 'Password *']) !!}
+                        <div class="nk-gap-2"></div>
+                        <div class="nk-form-response-success"></div>
+                        <div class="nk-form-response-error"></div>
+                        <button type="submit" class="nk-btn nk-btn-lg link-effect-4">Login</button>
+                        {!! Form::close() !!}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nk-gap-4"></div>
+        <!-- END: Contact Form -->
 
         <!-- START: About -->
         <div class="nk-box bg-dark-1">
             <div class="container text-xs-center">
-                <div class="nk-gap-2"></div>
-                <h2 class="nk-title h1">Scheduled Events</h2>
-                <div class="nk-gap-6"></div>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <td><h4>Events</h4></td>
-                                <td><h4>Schedules</h4></td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (config('activities.events') as $events)
-                                <tr>
-                                    <td><h5>{{ $events['title'] }}</h5></td>
-                                    <td><h5 data-mouse-parallax-z="2"><span class="timers" id="{{ $events['element'] }}" data-hrs="{{ $events['start_hours'] }}" data-mins="{{ $events['start_minutes'] }}">-</span></h5></td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <hr>
-
                 <div class="nk-gap-6"></div>
                 <div class="nk-gap-2"></div>
                 <h2 class="nk-title h1">About The Game</h2>
@@ -366,28 +395,35 @@
     <script>
         $(function() {
 
-            function simpleTimeFormat(time) {
-                if (time.toString().length === 1) {
-                    return '0' + Math.abs(time);
-                }
-
-                return Math.abs(time);
-
+            function pad(num) {
+                return ("0" + parseInt(num)).substr(-2);
             }
+
             function countdown(element, hour, minutes) {
+                hour = parseInt(hour);
+                minutes = parseInt(minutes);
+
+                var start = new Date();
+                start.setHours(hour, minutes, 0);
+
                 var now = new Date();
-                var hrs = hour-now.getHours();
-                var mins = minutes-now.getMinutes();
-                var secs = 60-now.getSeconds();
-                var timeLeft = simpleTimeFormat(hrs) + ':' + simpleTimeFormat(mins) + ':' + simpleTimeFormat(secs);
-                if (hrs == '00' && Math.abs(parseInt(mins)) <= 5) {
+                if (now > start) { // too late, go to tomorrow
+                    start.setDate(start.getDate() + 1);
+                }
+                var remain = ((start - now) / 1000);
+                var hh = pad((remain / 60 / 60) % 60);
+                var mm = pad((remain / 60) % 60);
+                var ss = pad(remain % 60);
+
+                var timeLeft =  hh + ":" + mm + ":" + ss;
+
+                if (hh == '00' && Math.abs(parseInt(mm)) <= 5) {
                     $(element).addClass('text-main-5');
                 } else {
                     $(element).removeClass('text-main-5');
                 }
                 $(element).html(timeLeft);
             }
-
 
             $.each($('.timers'), function (idx, timer) {
                 var element = $(timer).prop('id');

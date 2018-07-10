@@ -7,8 +7,8 @@ return [
          */
         'karya_dungeon_1' => [
             'title' => 'Karya Dungeon',
-            'start_hours' => '1',
-            'start_minutes' => '22',
+            'start_hours' => '10',
+            'start_minutes' => '35',
             'element' => 'karya-dungeon-1'
         ],
         /**
@@ -17,7 +17,7 @@ return [
         'zombie_apocalypse' => [
             'title' => 'Zombie Apocalypse',
             'start_hours' => '13',
-            'start_minutes' => '00',
+            'start_minutes' => '47',
             'element' => 'zombie-apocalypse'
         ],
     ]
